@@ -19,11 +19,8 @@ class SonarSweep:
         """
         return sum(
             depth2 > depth1
-            for depth1, depth2 in _tuples(self._iter_depths(window))
+            for depth1, depth2 in _pairwise(self._iter_data(), window)
         )
-
-    def _iter_depths(self, window):
-        return (sum(depths) for depths in _tuples(self._iter_data(), n=window))
 
     def _iter_data(self):
         with open(self.input_file, encoding='utf-8') as input_file:
@@ -31,12 +28,11 @@ class SonarSweep:
                 yield int(line)
 
 
-def _tuples(iterable, n=2):
-    iterators = tee(iterable, n)
-    for i in range(1, n):
-        for iterator in iterators[i:]:
-            next(iterator, None)
-    return zip(*iterators)
+def _pairwise(iterable, window=1):
+    first, second = tee(iterable)
+    for _ in range(window):
+        next(second, None)
+    return zip(first, second)
 
 
 def test_part1():
