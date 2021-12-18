@@ -1,10 +1,10 @@
 """Day 2: Dive!"""
 
 
-import os
+from pathlib import Path
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 
 class Submarine1:
@@ -32,7 +32,7 @@ class Submarine1:
 
     @staticmethod
     def _read_commands(instructions):
-        with open(instructions, encoding='utf-8') as input_file:
+        with instructions.open(encoding='utf-8') as input_file:
             for line in input_file:
                 direction, number = line.split()
                 yield direction.strip(), int(number)
@@ -57,11 +57,11 @@ class Submarine2(Submarine1):
 
 def test_part1():
     submarine = Submarine1()
-    submarine.dive(INPUT)
+    submarine.dive(PATH / 'input')
     assert submarine.multiplication == 1692075
 
 
 def test_part2():
     submarine = Submarine2()
-    submarine.dive(INPUT)
+    submarine.dive(PATH / 'input')
     assert submarine.multiplication == 1749524700

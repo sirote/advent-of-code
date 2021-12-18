@@ -1,17 +1,17 @@
 """Day 12: Passage Pathing"""
 
 
-import os
 from collections import defaultdict
+from pathlib import Path
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 
 class PassagePathing:
 
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, path):
+        self.path = path
 
     def find_all(self, should_visit=None, start='start', end='end'):
         """Return a list of distinct paths that start at `start`, end at
@@ -35,7 +35,7 @@ class PassagePathing:
 
     def _parse(self):
         graph = defaultdict(list)
-        with open(self.filename, encoding='utf-8') as input_file:
+        with self.path.open(encoding='utf-8') as input_file:
             for line in input_file:
                 cave1, cave2 = line.rstrip().split('-')
                 if cave1 == 'end' or cave2 == 'start':
@@ -54,7 +54,7 @@ def test_part1():
     def should_visit(cave, path):
         return cave.isupper() or cave not in path
 
-    assert len(PassagePathing(INPUT).find_all(should_visit)) == 3369
+    assert len(PassagePathing(PATH / 'input').find_all(should_visit)) == 3369
 
 
 def test_part2():
@@ -75,4 +75,4 @@ def test_part2():
             visited.add(cave)
         return True
 
-    assert len(PassagePathing(INPUT).find_all(should_visit)) == 85883
+    assert len(PassagePathing(PATH / 'input').find_all(should_visit)) == 85883

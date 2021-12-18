@@ -2,8 +2,8 @@
 
 
 import re
-from pathlib import Path
 from itertools import count, takewhile
+from pathlib import Path
 
 
 PATH = Path(__file__).parent

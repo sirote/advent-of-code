@@ -1,17 +1,17 @@
 """Day 1: Sonar Sweep"""
 
 
-import os
 from itertools import tee
+from pathlib import Path
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 
 class SonarSweep:
 
-    def __init__(self, input_file):
-        self.input_file = input_file
+    def __init__(self, path):
+        self.path = path
 
     def count_depth_increases(self, window=1):
         """Count the number of times a depth measurement increases from
@@ -23,7 +23,7 @@ class SonarSweep:
         )
 
     def _iter_data(self):
-        with open(self.input_file, encoding='utf-8') as input_file:
+        with self.path.open(encoding='utf-8') as input_file:
             for line in input_file:
                 yield int(line)
 
@@ -36,8 +36,8 @@ def _pairwise(iterable, window=1):
 
 
 def test_part1():
-    assert SonarSweep(INPUT).count_depth_increases() == 1709
+    assert SonarSweep(PATH / 'input').count_depth_increases() == 1709
 
 
 def test_part2():
-    assert SonarSweep(INPUT).count_depth_increases(window=3) == 1761
+    assert SonarSweep(PATH / 'input').count_depth_increases(window=3) == 1761

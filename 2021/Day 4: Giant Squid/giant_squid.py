@@ -1,24 +1,24 @@
 """Day 4: Giant Squid"""
 
 
-import os
 from contextlib import contextmanager
 from dataclasses import dataclass
 from functools import cached_property
+from pathlib import Path
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 
 @contextmanager
-def parse_input(filename):
+def parse(path):
     """Parse bingo input.
 
     The first line of the input is draw numbers followed by a blank line.
     The remaining lines are a set of boards. Each board is separated by
     a blank line.
     """
-    with open(filename, encoding='utf-8') as input_file:
+    with path.open(encoding='utf-8') as input_file:
         try:
             line = next(input_file)
         except StopIteration:
@@ -171,7 +171,7 @@ class Game2(Game1):
 
 
 def test_part1():
-    with parse_input(INPUT) as data:
+    with parse(PATH / 'input') as data:
         winning_board = Game1.play(*data)
         print()
         print(winning_board)
@@ -179,7 +179,7 @@ def test_part1():
 
 
 def test_part2():
-    with parse_input(INPUT) as data:
+    with parse(PATH / 'input') as data:
         winning_board = Game2.play(*data)
         print()
         print(winning_board)

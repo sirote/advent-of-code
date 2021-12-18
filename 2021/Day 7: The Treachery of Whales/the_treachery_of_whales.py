@@ -1,14 +1,14 @@
 """Day 7: The Treachery of Whales"""
 
 
-import os
+from pathlib import Path
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 
-def parse(filename):
-    with open(filename, encoding='utf-8') as input_file:
+def parse(path):
+    with path.open(encoding='utf-8') as input_file:
         return [int(position) for position in input_file.read().split(',')]
 
 
@@ -37,8 +37,8 @@ class CrabSubmarines2(CrabSubmarines1):
 
 
 def test_part1():
-    assert CrabSubmarines1.align(parse(INPUT)) == 347449
+    assert CrabSubmarines1.align(parse(PATH / 'input')) == 347449
 
 
 def test_part2():
-    assert CrabSubmarines2.align(parse(INPUT)) == 98039527
+    assert CrabSubmarines2.align(parse(PATH / 'input')) == 98039527

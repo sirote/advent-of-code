@@ -4,15 +4,16 @@
 import os
 from functools import cached_property
 from itertools import count
+from pathlib import Path
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 
 class BinaryDiagnostic:
 
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, path):
+        self.path = path
 
     @property
     def power_consumption(self):
@@ -69,14 +70,14 @@ class BinaryDiagnostic:
         return int(lines[0], 2)
 
     def _iter_lines(self):
-        with open(self.filename, encoding='utf-8') as input_file:
+        with self.path.open(encoding='utf-8') as input_file:
             for line in input_file:
                 yield line.rstrip()
 
 
 def test_part1():
-    assert BinaryDiagnostic(INPUT).power_consumption == 3923414
+    assert BinaryDiagnostic(PATH / 'input').power_consumption == 3923414
 
 
 def test_part2():
-    assert BinaryDiagnostic(INPUT).life_support_rating == 5852595
+    assert BinaryDiagnostic(PATH / 'input').life_support_rating == 5852595

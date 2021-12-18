@@ -1,10 +1,10 @@
 """Day 13: Transparent Origami"""
 
 
-import os
+from pathlib import Path
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 
 class TransparentOrigami:
@@ -46,8 +46,8 @@ class TransparentOrigami:
         }
 
 
-def parse(filename):
-    with open(filename, encoding='utf-8') as input_file:
+def parse(path):
+    with path.open(encoding='utf-8') as input_file:
         coordinates = []
         for line in input_file:
             if not line.strip():
@@ -64,14 +64,14 @@ def parse(filename):
 
 
 def test_part1():
-    coordinates, fold_instructions = parse(INPUT)
+    coordinates, fold_instructions = parse(PATH / 'input')
     origami = TransparentOrigami(coordinates)
     origami.fold(*fold_instructions[0])
     assert len(origami) == 735
 
 
 def test_part2():
-    coordinates, fold_instructions = parse(INPUT)
+    coordinates, fold_instructions = parse(PATH / 'input')
     origami = TransparentOrigami(coordinates)
     for instruction in fold_instructions:
         origami.fold(*instruction)

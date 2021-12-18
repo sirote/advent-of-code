@@ -1,17 +1,17 @@
 """Day 5: Hydrothermal Venture"""
 
 
-import os
 from collections import Counter
 from itertools import repeat
+from pathlib import Path
 from typing import NamedTuple
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 
-def parse(filename):
-    with open(filename, encoding='utf-8') as input_file:
+def parse(path):
+    with path.open(encoding='utf-8') as input_file:
         for line in input_file:
             start, end = line.split('->')
             yield (_parse_point(start), _parse_point(end))
@@ -88,11 +88,11 @@ class Diagram2(Diagram1):
 
 def test_part1():
     diagram = Diagram1()
-    diagram.draw(parse(INPUT))
+    diagram.draw(parse(PATH / 'input'))
     assert diagram.overlap_points == 7142
 
 
 def test_part2():
     diagram = Diagram2()
-    diagram.draw(parse(INPUT))
+    diagram.draw(parse(PATH / 'input'))
     assert diagram.overlap_points == 20012

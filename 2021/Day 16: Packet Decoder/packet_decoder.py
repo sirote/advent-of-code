@@ -3,11 +3,11 @@
 
 import math
 import operator
-import os
 from functools import reduce
+from pathlib import Path
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 # Type ID
 SUM = 0
@@ -142,8 +142,8 @@ def evaluate(packet):
         return 1 if first == second else 0
 
 
-def parse(filename):
-    with open(filename, encoding='utf-8') as input_file:
+def parse(path):
+    with path.open(encoding='utf-8') as input_file:
         return input_file.read().strip()
 
 
@@ -151,44 +151,45 @@ def test_sum_versions():
     examples = ('example4', 'example5', 'example6', 'example7')
     values = (16, 12, 23, 31)
     for example, expected in zip(examples, values):
-        assert sum_version(Packet(parse(example)).decode()) == expected
+        packet = Packet(parse(PATH / example))
+        assert sum_version(packet.decode()) == expected
 
 
 def test_sum():
-    assert evaluate(Packet(parse('example8')).decode()) == 3
+    assert evaluate(Packet(parse(PATH / 'example8')).decode()) == 3
 
 
 def test_product():
-    assert evaluate(Packet(parse('example9')).decode()) == 54
+    assert evaluate(Packet(parse(PATH / 'example9')).decode()) == 54
 
 
 def test_minimum():
-    assert evaluate(Packet(parse('example10')).decode()) == 7
+    assert evaluate(Packet(parse(PATH / 'example10')).decode()) == 7
 
 
 def test_maximum():
-    assert evaluate(Packet(parse('example11')).decode()) == 9
+    assert evaluate(Packet(parse(PATH / 'example11')).decode()) == 9
 
 
 def test_less_than():
-    assert evaluate(Packet(parse('example12')).decode()) == 1
+    assert evaluate(Packet(parse(PATH / 'example12')).decode()) == 1
 
 
 def test_greater_than():
-    assert evaluate(Packet(parse('example13')).decode()) == 0
+    assert evaluate(Packet(parse(PATH / 'example13')).decode()) == 0
 
 
 def test_equal_to():
-    assert evaluate(Packet(parse('example14')).decode()) == 0
+    assert evaluate(Packet(parse(PATH / 'example14')).decode()) == 0
 
 
 def test_expression():
-    assert evaluate(Packet(parse('example15')).decode()) == 1
+    assert evaluate(Packet(parse(PATH / 'example15')).decode()) == 1
 
 
 def test_part1():
-    assert sum_version(Packet(parse(INPUT)).decode()) == 860
+    assert sum_version(Packet(parse(PATH / 'input')).decode()) == 860
 
 
 def test_part2():
-    assert evaluate(Packet(parse(INPUT)).decode()) == 470949537659
+    assert evaluate(Packet(parse(PATH / 'input')).decode()) == 470949537659

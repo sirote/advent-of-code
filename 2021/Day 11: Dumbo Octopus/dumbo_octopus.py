@@ -1,11 +1,11 @@
 """Day 11: Dumbo Octopus"""
 
 
-import os
 from itertools import count
+from pathlib import Path
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 
 class DumboOctopuses:
@@ -71,8 +71,8 @@ class DumboOctopuses:
                     yield adj_row, adj_col
 
 
-def parse(filename):
-    with open(filename, encoding='utf-8') as input_file:
+def parse(path):
+    with path.open(encoding='utf-8') as input_file:
         return [
             [int(number) for number in line.strip()]
             for line in input_file
@@ -80,7 +80,7 @@ def parse(filename):
 
 
 def test_part1():
-    octopuses = DumboOctopuses(parse(INPUT))
+    octopuses = DumboOctopuses(parse(PATH / 'input'))
     for _ in range(100):
         next(octopuses)
 
@@ -88,7 +88,7 @@ def test_part1():
 
 
 def test_part2():
-    octopuses = DumboOctopuses(parse(INPUT))
+    octopuses = DumboOctopuses(parse(PATH / 'input'))
     step = 0
     for step in count(start=1):
         if next(octopuses).synchronized:

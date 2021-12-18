@@ -1,12 +1,12 @@
 """Day 14: Extended Polymerization"""
 
 
-import os
 from collections import Counter, defaultdict
 from itertools import tee
+from pathlib import Path
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 
 class ExtendedPolymerization:
@@ -55,8 +55,8 @@ class ExtendedPolymerization:
         return zip(first, second)
 
 
-def parse(filename):
-    with open(filename, encoding='utf-8') as input_file:
+def parse(path):
+    with path.open(encoding='utf-8') as input_file:
         template = next(input_file).strip()
         insertions = [
             tuple(s.strip() for s in line.split('->'))
@@ -75,7 +75,7 @@ def test_part2():
 
 
 def _diff(steps):
-    polymer = ExtendedPolymerization(*parse(INPUT))
+    polymer = ExtendedPolymerization(*parse(PATH / 'input'))
     for _ in range(steps):
         next(polymer)
 

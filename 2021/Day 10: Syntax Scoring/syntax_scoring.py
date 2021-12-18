@@ -1,12 +1,12 @@
 """Day 10: Syntax Scoring"""
 
 
-import os
 from collections import Counter
 from functools import reduce
+from pathlib import Path
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 PAIRS = {
     '(': ')',
@@ -25,8 +25,8 @@ class CorruptedSyntaxScoring:
         '>': 25137.
     }
 
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, path):
+        self.path = path
 
     def score(self):
         """Return the total syntax error score."""
@@ -56,7 +56,7 @@ class CorruptedSyntaxScoring:
         return None
 
     def _iter_lines(self):
-        with open(self.filename, encoding='utf-8') as input_file:
+        with self.path.open(encoding='utf-8') as input_file:
             for line in input_file:
                 yield line.rstrip()
 
@@ -100,8 +100,8 @@ class IncompleteSyntaxScoring(CorruptedSyntaxScoring):
 
 
 def test_part1():
-    assert CorruptedSyntaxScoring('input').score() == 374061
+    assert CorruptedSyntaxScoring(PATH / 'input').score() == 374061
 
 
 def test_part2():
-    assert IncompleteSyntaxScoring('input').score() == 2116639949
+    assert IncompleteSyntaxScoring(PATH / 'input').score() == 2116639949

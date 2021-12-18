@@ -2,11 +2,11 @@
 
 
 import math
-import os
 from heapq import heappush, heappop
+from pathlib import Path
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 
 class RiskMap:
@@ -107,8 +107,8 @@ class Cavern:
         return dist
 
 
-def parse(filename):
-    with open(filename, encoding='utf-8') as input_file:
+def parse(path):
+    with path.open(encoding='utf-8') as input_file:
         return [
             [int(n) for n in line.strip()]
             for line in input_file
@@ -116,7 +116,7 @@ def parse(filename):
 
 
 def test_part1():
-    risk_map = RiskMap(parse(INPUT))
+    risk_map = RiskMap(parse(PATH / 'input'))
     cavern = Cavern(risk_map)
     risk_level = cavern.find_lowest_risk(start=(0, 0))
     print()
@@ -125,5 +125,5 @@ def test_part1():
 
 
 def test_part2():
-    risk_map = RiskMap(parse(INPUT), factor=5)
+    risk_map = RiskMap(parse(PATH / 'input'), factor=5)
     assert Cavern(risk_map).find_lowest_risk(start=(0, 0)) == 2838

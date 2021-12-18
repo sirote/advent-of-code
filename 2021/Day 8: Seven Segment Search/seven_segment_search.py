@@ -1,11 +1,11 @@
 """Day 8: Seven Segment Search"""
 
 
-import os
 from collections import Counter, defaultdict
+from pathlib import Path
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 
 class Digit:
@@ -190,9 +190,9 @@ EIGHT = Digit((True, True, True, True, True, True, True))
 NINE = Digit((True, True, True, True, False, True, True))
 
 
-def parse(filename):
+def parse(path):
     """Return an iterator of patterns/outputs pairs."""
-    with open(filename, encoding='utf-8') as input_file:
+    with path.open(encoding='utf-8') as input_file:
         for line in input_file:
             patterns, outputs = line.split('|')
             yield _parse_patterns(patterns), outputs.strip().split()
@@ -209,7 +209,7 @@ def test_part1():
     digits = Digits([ONE, FOUR, SEVEN, EIGHT])
     counts = sum(
         sum(bool(digits.find_indices(len(output))) for output in outputs)
-        for _, outputs in parse(INPUT)
+        for _, outputs in parse(PATH / 'input')
     )
     assert counts == 521
 
@@ -218,4 +218,7 @@ def test_part2():
     solver = Solver(Digits(
         [ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE]
     ))
-    assert sum(solver.solve(*entry) for entry in parse(INPUT)) == 1016804
+    assert sum(
+        solver.solve(*entry)
+        for entry in parse(PATH / 'input')
+    ) == 1016804

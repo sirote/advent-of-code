@@ -2,20 +2,20 @@
 
 
 import operator
-import os
 from functools import reduce
 from itertools import chain
+from pathlib import Path
 
 
-INPUT = os.path.join(os.path.dirname(__file__), 'input')
+PATH = Path(__file__).parent
 
 HIGHEST = '9'
 
 
 class SmokeBasin:
 
-    def __init__(self, filename):
-        self.heightmap = list(self._parse(filename))
+    def __init__(self, path):
+        self.heightmap = list(self._parse(path))
 
     @property
     def low_point_heights(self):
@@ -83,11 +83,11 @@ class SmokeBasin:
 
 
 def test_part1():
-    smoke_basin = SmokeBasin(INPUT)
+    smoke_basin = SmokeBasin(PATH / 'input')
     risk_levels = [height + 1 for height in smoke_basin.low_point_heights]
     assert sum(risk_levels) == 462
 
 
 def test_part2():
-    smoke_basin = SmokeBasin(INPUT)
+    smoke_basin = SmokeBasin(PATH / 'input')
     assert reduce(operator.mul, sorted(smoke_basin.sizes)[-3:], 1) == 1397760
