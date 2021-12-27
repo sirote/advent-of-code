@@ -21,17 +21,18 @@ class Burrow:
         'D': 1000,
     }
     rooms = {
-        'A': (29, 42),
-        'B': (31, 44),
-        'C': (33, 46),
-        'D': (35, 48),
+        'A': {29, 42},
+        'B': {31, 44},
+        'C': {33, 46},
+        'D': {35, 48},
     }
     hallway = {14, 15, 17, 19, 21, 23, 24}
     outside_room = {16, 18, 20, 22}
 
-    def __init__(self, diagram, energy=0):
+    def __init__(self, diagram, energy=0, hueristic=0):
         self.diagram = diagram
         self.energy = energy
+        self.hueristic = hueristic
 
     def __repr__(self):
         return f'Energy: {self.energy}\n' + ''.join(
@@ -65,8 +66,15 @@ class Burrow:
                 if steps == math.inf:
                     continue
 
-                energy = self.energy + steps * self.amphipods[char]
-                yield type(self)(self._move(char, pos, new_pos), energy)
+                cost = steps * self.amphipods[char]
+                energy = self.energy + cost
+                hueristic = self.hueristic
+                if new_pos not in self.rooms[char]:
+                    hueristic += cost
+
+                yield type(self)(
+                    self._move(char, pos, new_pos), energy, hueristic
+                )
 
     def _move(self, amphipod, pos, new_pos):
         diagram = (
@@ -134,10 +142,10 @@ class Burrow:
 class Burrow2(Burrow):
 
     rooms = {
-        'A': (29, 42, 55, 68),
-        'B': (31, 44, 57, 70),
-        'C': (33, 46, 59, 72),
-        'D': (35, 48, 61, 74),
+        'A': {29, 42, 55, 68},
+        'B': {31, 44, 57, 70},
+        'C': {33, 46, 59, 72},
+        'D': {35, 48, 61, 74},
     }
 
 
@@ -178,7 +186,7 @@ class Amphipod:
                 if energy < energies.get(next_burrow, math.inf):
                     energies[next_burrow] = energy
                     self._trail[next_burrow] = burrow
-                heappush(queue, (energy, next_burrow))
+                heappush(queue, (next_burrow.hueristic, next_burrow))
 
         return math.inf
 
